@@ -3,7 +3,7 @@
 #include"singleplayer.c"
 #include"multiplayers.c"
 void main(){
-    int NumPlyr,GameDiff;
+    int NumPlyr,GameDiff;  
     system("cls");
     printf("Welcome to my Memory Game\n== FIRST STEP ==");
     do{
