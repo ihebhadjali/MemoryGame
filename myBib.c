@@ -365,12 +365,32 @@ void adminPnael(){
         for (i=0;i<l;i++)
             gameGrid[i]=(char *) malloc(c*sizeof(char));
         
+        initialGrid(PlayerGrid,l,c);
+
         for(i=0;i<((l*c)/2);i++){
                 fscanf(fp,"%c %d %d %d %d\n",&crct,&indl1,&indc1,&indl2,&indc2);
                 gameGrid[indl1][indc1]=crct;
                 gameGrid[indl2][indc2]=crct;
                 printf("%c",gameGrid[indl1][indc1]);
             }
+
+    while(stillPlay(PlayerGrid,gameGrid,l,c,jet)==1){
+        plyrRound(PlayerGrid,gameGrid,l,c,&jet,1);
+    }
+    if(jet==0){
+        printf("\n*********       Game Over -_-!       *********\n******** You have lost all your coins ********\n");
+    }
+    else {
+        printf("\n*********     You Win^_^      *********\n");
+
+    }
+    for (i=0;i<l;i++)
+        free(PlayerGrid[i]);
+    free(PlayerGrid);
+
+    for (i=0;i<l;i++)
+        free(gameGrid[i]);
+    free(gameGrid);
         fclose(fp);
     }
     else printf("Impossible d'ouvrir le fichier adminpanel.txt");
