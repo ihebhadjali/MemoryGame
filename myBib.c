@@ -4,24 +4,25 @@
 
 int singlePlyrGame(int,int);
 int multiPlyrGame(int*,int*,int);
-void gameDef(int,int*,int*,int*);
+void gameDef(int,int*,int*,int*,int*);
 void initialGrid(char**,int,int);
 void fillGrid(char**,int,int);
 void showGrid(char**,int,int);
 void delay(int);
-void plyrRound(char**,char**,int,int,int*,int);
-void multiPlyrRound(char**,char**,int,int,int*,int*,int*,int*,int);
+void plyrRound(char**,char**,int,int,int*,int,int);
+void multiPlyrRound(char**,char**,int,int,int*,int*,int*,int*,int,int);
 int stillPlay(char**,char**,int,int,int);
 void adminPnael();
+void plyrRoundAdmin(char**,char**,int,int,int*,int);
 
 //_____________________________________________________
 
 int singlePlyrGame(int lvl,int score){
-    int l,c,i,jet,res;
+    int l,c,i,jet,res,del;
     char **gameGrid, **PlayerGrid;
     delay(1);
     system("cls");
-    gameDef(lvl,&l,&c,&jet);
+    gameDef(lvl,&l,&c,&jet,&del);
     
     PlayerGrid=(char **) malloc(l*sizeof(char*));
     for (i=0;i<l;i++)
@@ -35,7 +36,7 @@ int singlePlyrGame(int lvl,int score){
     fillGrid(gameGrid,l,c);
 
     while(stillPlay(PlayerGrid,gameGrid,l,c,jet)==1){
-        plyrRound(PlayerGrid,gameGrid,l,c,&jet,lvl);
+        plyrRound(PlayerGrid,gameGrid,l,c,&jet,lvl,del);
     }
     if(jet==0){
         printf("\n*********       Game Over -_-!       *********\n******** You have lost all your coins ********\n");
@@ -124,12 +125,12 @@ void delay(int number_of_seconds){
 
 //_____________________________________________________
 
-void plyrRound(char **PlayerGrid,char **gameGrid,int l,int c, int *jet,int lvl){
+void plyrRound(char **PlayerGrid,char **gameGrid,int l,int c, int *jet,int lvl, int del){
     int i,j,x1,y1,x2,y2;
     char c1,c2,testc1,testc2;
-    printf("\n************** Level %d **************\n********* You have  %d Coins *********\n\nYou have 5 seconds to see the grid\n",lvl,*jet);
+    printf("\n************** Level %d **************\n********* You have  %d Coins *********\n\nYou have %d seconds to see the grid\n",lvl,*jet,del);
     showGrid(gameGrid,l,c);
-    delay(5);
+    delay(del);
     system("cls");
     printf("\n************** Level %d **************\n********* You have  %d Coins *********\n\n\n",lvl,*jet);
     delay(1);
@@ -194,11 +195,11 @@ int stillPlay(char **PlayerGrid,char **gameGrid,int l,int c, int jet){
 //_____________________________________________________
 
 int multiPlyrGame(int *scorePlyr1,int *scorePlyr2,int lvl){
-    int l,c,i,jet,res,plyrTurn=0;
+    int l,c,i,jet,res,del,plyrTurn=0;
     char **gameGrid, **PlayersGrid;
     delay(1);
     system("cls");
-    gameDef(lvl,&l,&c,&jet);
+    gameDef(lvl,&l,&c,&jet,&del);
 
     PlayersGrid=(char **) malloc(l*sizeof(char*));
     for (i=0;i<l;i++)
@@ -212,7 +213,7 @@ int multiPlyrGame(int *scorePlyr1,int *scorePlyr2,int lvl){
     fillGrid(gameGrid,l,c);
 
     while(stillPlay(PlayersGrid,gameGrid,l,c,jet)==1){
-        multiPlyrRound(PlayersGrid,gameGrid,l,c,&jet,&plyrTurn,scorePlyr1,scorePlyr2,lvl);
+        multiPlyrRound(PlayersGrid,gameGrid,l,c,&jet,&plyrTurn,scorePlyr1,scorePlyr2,lvl,del);
     }
 
     if(jet==0){
@@ -239,27 +240,55 @@ int multiPlyrGame(int *scorePlyr1,int *scorePlyr2,int lvl){
 
 //_____________________________________________________
 
-void gameDef(int lvl,int *l,int *c,int *jet){
+void gameDef(int lvl,int *l,int *c,int *jet,int *del){
     switch (lvl){
         case 1 :
             *l=2;
             *c=2;
-            *jet=3;
+            *jet=1;
+            *del=3;
             break;
         case 2 :
             *l=2;
-            *c=3;
-            *jet=4;
+            *c=2;
+            *jet=1;
+            *del=1;
             break;
         case 3 :
             *l=2;
-            *c=4;
-            *jet=5;
+            *c=3;
+            *jet=2;
+            *del=3;
             break;
         case 4 :
-            *l=3;
+            *l=2;
+            *c=3;
+            *jet=1;
+            *del=1;
+            break;
+        case 5 :
+            *l=2;
             *c=4;
-            *jet=6;
+            *jet=3;
+            *del=3;
+            break;
+        case 6 :
+            *l=2;
+            *c=4;
+            *jet=2;
+            *del=1;
+            break;
+        case 7 :
+            *l=2;
+            *c=5;
+            *jet=2;
+            *del=2;
+            break;
+        case 9 :
+            *l=2;
+            *c=5;
+            *jet=1;
+            *del=1;
             break;
         default :
             printf("Error 404!");
@@ -269,12 +298,12 @@ void gameDef(int lvl,int *l,int *c,int *jet){
 
 //_____________________________________________________
 
-void multiPlyrRound(char **PlayersGrid,char **gameGrid,int l,int c,int *jet,int *plyrTurn,int *scorePlyr1,int *scorePlyr2,int lvl){
+void multiPlyrRound(char **PlayersGrid,char **gameGrid,int l,int c,int *jet,int *plyrTurn,int *scorePlyr1,int *scorePlyr2,int lvl,int del){
     int i,j,x1,y1,x2,y2;
     char c1,c2,testc1,testc2;
-    printf("\n************** Level %d **************\n********* You have  %d Coins *********\n\nPlayer %d It's your turn.\nYou have 5 seconds to see the grid\n",lvl,*jet,((*plyrTurn)%2)+1);
+    printf("\n************** Level %d **************\n********* You have  %d Coins *********\n\nPlayer %d It's your turn.\nYou have %d seconds to see the grid\n",lvl,*jet,((*plyrTurn)%2)+1,del);
     showGrid(gameGrid,l,c);
-    delay(5);
+    delay(del);
     system("cls");
     printf("\n************** Level %d **************\n********* You have  %d Coins *********\n\n\n\n",lvl,*jet);
     delay(1);
@@ -327,23 +356,26 @@ void multiPlyrRound(char **PlayersGrid,char **gameGrid,int l,int c,int *jet,int 
 //_____________________________________________________
 
 void adminPnael(){
-    int choice,l,c,jet,i,indl1,indc1,indl2,indc2;
+    int choix,l,c,jet,i,indl1,indc1,indl2,indc2,del;
     char **gameGrid, **PlayerGrid,crct;
 
     do{
         printf("*************    Memory Game Started    *************\n Mode Admin\n choose 2 load the last matrice enregistrer par ladministrateur \n choose 1 to reset la matrice ");
-        scanf("%d",&choice);
-    }while( choice!=1 && choice!=2 );
+        scanf("%d",&choix);
+    }while( choix!=1 && choix!=2 );
     
     FILE* fp = NULL;
     
-    if (choice==1){
-        fp = fopen("gamefiles/adminpanel.txt", "w+");
+    if (choix==1){
+        fp = fopen("gamefiles/adminpanel.txt", "w");
         if (fp != NULL){
-            printf("Grid Size");
-            scanf("%d",&l);
-            scanf("%d",&c);
-            fprintf(fp,"%d %d\n",l,c);
+            printf("Grid Size : ");
+            scanf("%d %d",&l,&c);
+            printf("Le nombre des jetons : ");
+            scanf("%d",&jet);
+            printf("Game Time : ");
+            scanf("%d",&del);
+            fprintf(fp,"%d %d %d %d\n",l,c,jet,del);
             for(i=0;i<((l*c)/2);i++){
                 printf("put %c in",65+i);
                 scanf("%d %d %d %d",&indl1,&indc1,&indl2,&indc2);
@@ -353,9 +385,10 @@ void adminPnael(){
         }
         else printf("Impossible d'ouvrir le fichier adminpanel.txt");
     }
-    fp = fopen("gamefiles/adminpanel.txt", "r+");
+    fp = fopen("gamefiles/adminpanel.txt", "r");
+
     if (fp != NULL){
-        fscanf(fp,"%d %d\n",&l,&c);
+        fscanf(fp,"%d %d %d %d\n",&l,&c,&jet,&del);
 
         PlayerGrid=(char **) malloc(l*sizeof(char*));
         for (i=0;i<l;i++)
@@ -369,19 +402,17 @@ void adminPnael(){
 
         for(i=0;i<((l*c)/2);i++){
                 fscanf(fp,"%c %d %d %d %d\n",&crct,&indl1,&indc1,&indl2,&indc2);
-                gameGrid[indl1][indc1]=crct;
-                gameGrid[indl2][indc2]=crct;
-                printf("%c",gameGrid[indl1][indc1]);
+                *(*(gameGrid+indl1)+indc1)=crct;
+                *(*(gameGrid+indl2)+indc2)=crct;
             }
-
     while(stillPlay(PlayerGrid,gameGrid,l,c,jet)==1){
-        plyrRound(PlayerGrid,gameGrid,l,c,&jet,1);
+        plyrRoundAdmin(PlayerGrid,gameGrid,l,c,&jet,&del);
     }
     if(jet==0){
         printf("\n*********       Game Over -_-!       *********\n******** You have lost all your coins ********\n");
     }
     else {
-        printf("\n*********     You Win^_^      *********\n");
+        printf("\n*********     You Win ^_^      *********\n");
 
     }
     for (i=0;i<l;i++)
@@ -395,3 +426,57 @@ void adminPnael(){
     }
     else printf("Impossible d'ouvrir le fichier adminpanel.txt");
 }
+
+//_____________________________________________________
+
+void plyrRoundAdmin(char **PlayerGrid,char **gameGrid,int l,int c, int *jet,int del){
+    int i,j,x1,y1,x2,y2;
+    char c1,c2,testc1,testc2;
+    printf("\n********* You have  %d Coins *********\n\nYou have %d seconds to see the grid\n",*jet,del);
+    showGrid(gameGrid,l,c);
+    delay(del);
+    system("cls");
+    printf("\n********* You have  %d Coins *********\n\n\n",*jet);
+    delay(1);
+    showGrid(PlayerGrid,l,c);
+    do{
+        printf("\nEnter the first index : ");
+        scanf(" %c",&c1);
+        printf("Enter the second index : ");
+        scanf(" %c",&c2);
+        if(c1==c2) printf("Error -_- ! You must choose different boxes\n");
+        if((48>c1) && (c1>(49+(l*c))))  printf("Error -_-! , %c doesn't exist\n",c1);
+        if((48>c2) && (c2>(49+(l*c))))  printf("Error -_-! , %c doesn't exist\n",c2);
+    }while((c1==c2) && ((48<c1) || (c1<(49+(l*c)))) && ((48<c2)||(c2<(49+(l*c)))));
+    for(i=0;i<l;i++)
+        for(j=0;j<c;j++){
+            if(c1==*(*(PlayerGrid+i)+j)){
+                testc1=*(*(gameGrid+i)+j);
+                x1=i;
+                y1=j;
+            }
+    }
+    for(i=0;i<l;i++)
+        for(j=0;j<c;j++){
+            if(c2==*(*(PlayerGrid+i)+j)){
+                testc2=*(*(gameGrid+i)+j);
+                x2=i;
+                y2=j;
+            }           
+    }
+    if(testc1==testc2){
+        *(*(PlayerGrid+x1)+y1)=*(*(gameGrid+x1)+y1);
+        *(*(PlayerGrid+x2)+y2)=*(*(gameGrid+x2)+y2);
+        printf("\nGood Game ^_^\n");
+        delay(3);
+
+    }
+    else{
+        printf("\nWrong choice -_-!\n");
+        *jet=(*jet)-1;
+        delay(3);
+    }
+    system("cls");
+}
+
+//_____________________________________________________
