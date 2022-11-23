@@ -406,7 +406,7 @@ void adminPnael(){
                 *(*(gameGrid+indl2)+indc2)=crct;
             }
     while(stillPlay(PlayerGrid,gameGrid,l,c,jet)==1){
-        plyrRoundAdmin(PlayerGrid,gameGrid,l,c,&jet,&del);
+        plyrRoundAdmin(PlayerGrid,gameGrid,l,c,&jet,del);
     }
     if(jet==0){
         printf("\n*********       Game Over -_-!       *********\n******** You have lost all your coins ********\n");
