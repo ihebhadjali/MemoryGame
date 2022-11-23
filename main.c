@@ -39,12 +39,12 @@ void main(){
             printf("Write the second player name : ");
             scanf("%s",&plyrName2);
             
-            while(multiPlyrGame(&scorePlyr1,&scorePlyr2,lvl)==1 && lvl<5){
+            while(multiPlyrGame(&scorePlyr1,&scorePlyr2,lvl)==1 && lvl<10){
                 lvl++;
                 printf("\n********     Players Score     ********\n\t%s\t: %d points.\n\t%s\t: %d points",plyrName1,scorePlyr1,plyrName2,scorePlyr2);
                 delay(3);
             }
-            if(lvl=5){
+            if(lvl=10){
                 if(scorePlyr1>scorePlyr2) printf("\nThe winner is %s\nCongratulations.",plyrName1);
                 else if(scorePlyr1<scorePlyr2) printf("\nThe winner is %s\nCongratulations.",plyrName2);
                 else printf("\nCongratulations %s and %s\nYou have won the game.",plyrName1,plyrName2);
